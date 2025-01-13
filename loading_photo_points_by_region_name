@@ -1,0 +1,8 @@
+# trying to load up the images that went into being used for j_7
+all_parents = """j_6""".split("\n")
+for parent in all_parents:
+    regions= sorted(Path("region_labeled_image_cluster_groups/").glob(f"{parent}_*"))
+    for reg in regions:
+      p = processing.run("native:importphotos", {'FOLDER':f'/xdisk/bryancarter/baylyd/region_labeled_image_cluster_groups/{reg.stem}/images','RECURSIVE':False,'OUTPUT':'TEMPORARY_OUTPUT'})["OUTPUT"]
+      p.setName(reg.stem)
+      QgsProject.instance().addMapLayer(p)

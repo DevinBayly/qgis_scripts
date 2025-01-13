@@ -1,0 +1,21 @@
+# estimating the number of regions that have the feature cyclic variation
+from pathlib import Path
+# get all the features
+tifs = []
+for feature in iface.activeLayer().getFeatures():
+# for each feature get al the cluster orthos
+# 
+    t = sorted(Path("/xdisk/bryancarter/baylyd/region_labeled_image_cluster_groups").glob(f"{feature['region']}*/odm_orthophoto/odm_orthophoto.tif"))
+    tifs.extend(t)
+def orderer(tif):
+    return tif.stat().st_mtime
+
+tifs.sort(key=orderer)
+tifs.reverse()
+for tif in tifs:
+    
+    base_name = tif.parent.parent.name.replace("region","")
+    
+    print(tif)
+    iface.addRasterLayer(str(tif), f"{tif.parent.parent.stem}")
+print("done")
